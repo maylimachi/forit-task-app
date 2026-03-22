@@ -7,6 +7,7 @@ function TaskForm({ onTaskCreated, taskToEdit, onUpdate }) {
 
     useEffect(() => {
         if (taskToEdit) {
+            // eslint-disable-next-line react-hooks/set-state-in-effect
             setTitle(taskToEdit.title);
             setDescription(taskToEdit.description);
         } else {
@@ -19,14 +20,12 @@ function TaskForm({ onTaskCreated, taskToEdit, onUpdate }) {
         e.preventDefault();
 
         if (taskToEdit) {
-        // EDITAR
         onUpdate({
             ...taskToEdit,
             title,
             description,
         });
         } else {
-        // CREAR
         fetch("http://localhost:3000/api/tasks", {
             method: "POST",
             headers: {
@@ -49,29 +48,49 @@ function TaskForm({ onTaskCreated, taskToEdit, onUpdate }) {
     };
 
     return (
-        <form onSubmit={handleSubmit}>
-            <h2>{taskToEdit ? "Editar tarea" : "Crear tarea"}</h2>
+        <form onSubmit={handleSubmit} className="mb-4">
+            <small className="text-white mb-2 d-block text-center display-6 mb-4">
+                {taskToEdit ? "Puedes editar tu tarea" : "Puedes agregar una nueva tarea"}
+            </small>
 
-            <input
-                type="text"
-                placeholder="Título"
-                value={title}
-                onChange={(e) => { setTitle(e.target.value); setError(""); }}
-            />
-            {error && <p style={{ color: "red" }}>{error}</p>}
+            <div className="row g-2 align-items-center">
+                <div className="col-md-4">
+                    <input
+                    type="text"
+                    className="form-control p-2"
+                    placeholder="Título de la tarea"
+                    value={title}
+                    onChange={(e) => {
+                        setTitle(e.target.value);
+                        setError("");
+                    }}
+                    />
+                </div>
 
-            <input
-                type="text"
-                placeholder="Descripción"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-            />
+                <div className="col-md-5">
+                    <input
+                    type="text"
+                    className="form-control p-2"
+                    placeholder="Descripción de la tarea"
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                    />
+                </div>
 
-            <button type="submit" disabled={!title.trim()}>
-                {taskToEdit ? "Actualizar" : "Agregar"}
-            </button>
+                <div className="col-md-3 d-grid">
+                    <button
+                    type="submit"
+                    className="btn btn-primary p-2"
+                    disabled={!title.trim()}
+                    >
+                    {taskToEdit ? "Actualizar" : "Agregar"}
+                    </button>
+                </div>
+            </div>
+
+            {error && <p className="text-danger mt-2 text-center">{error}</p>}
         </form>
-    );
+        );
 }
 
 export default TaskForm;

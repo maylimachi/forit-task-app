@@ -1,0 +1,21 @@
+.titulo-grande {
+    font-size: 4rem;
+}
+.color-fondo {
+    background-color: #050325;
+}
+.btn-hover {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.btn-hover:hover {
+    transform: scale(1.1); 
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+.placeholder-blanco {
+  color: black; /* texto que escribe el usuario */
+}
+
+.placeholder-blanco::placeholder {
+  color: white; /* placeholder */
+  opacity: 1;
+}
